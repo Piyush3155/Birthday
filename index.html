@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday!</title>
+  <style>
+    /* Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+.container {
+  width: 100%;
+  max-width: 800px;
+  perspective: 1000px;
+}
+
+.card {
+  background-color: white;
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  position: relative;
+  padding: 40px 20px;
+  transform-style: preserve-3d;
+  animation: cardEntrance 1s ease-out forwards;
+}
+
+@keyframes cardEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(50px) rotateX(-10deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+/* Header Styles */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.title {
+  font-family: "Pacifico", cursive;
+  font-size: 4rem;
+  background: linear-gradient(45deg, #ff6b6b, #ffa3a3, #ffcc70, #8ed1fc);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 10px;
+  animation: colorChange 5s infinite alternate;
+}
+
+@keyframes colorChange {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.subtitle {
+  color: #666;
+  font-size: 1.2rem;
+  animation: fadeIn 2s ease-in;
+}
+
+/* Cake Styles */
+.cake-container {
+  display: flex;
+  justify-content: center;
+  margin: 40px 0;
+  perspective: 1000px;
+}
+
+.cake {
+  position: relative;
+  width: 180px;
+  height: 160px;
+  transform-style: preserve-3d;
+  animation: cakeEntrance 1.5s ease-out forwards;
+}
+
+@keyframes cakeEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(30px) rotateY(-20deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotateY(0);
+  }
+}
+
+.cake-top {
+  position: absolute;
+  width: 180px;
+  height: 40px;
+  background: #ff9eb5;
+  border-radius: 10px 10px 0 0;
+  top: 0;
+}
+
+.cake-middle {
+  position: absolute;
+  width: 180px;
+  height: 60px;
+  background: #ffd3a1;
+  top: 40px;
+}
+
+.cake-bottom {
+  position: absolute;
+  width: 180px;
+  height: 60px;
+  background: #ffaaa7;
+  bottom: 0;
+  border-radius: 0 0 10px 10px;
+}
+
+/* Candles Container */
+.candles-container {
+  position: absolute;
+  width: 100%;
+  height: 10px;
+  top: -10px;
+  display: flex;
+  justify-content: center;
+  z-index: 2;
+}
+
+.candle {
+  position: relative;
+  width: 8px;
+  height: 35px;
+  background: linear-gradient(to bottom, #fff, #f0f0f0);
+  border-radius: 5px;
+  margin: 0 5px;
+  z-index: 1;
+  transform-origin: bottom center;
+}
+
+.candle::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 3px;
+  background: #ffcc70;
+  bottom: 0;
+  left: 0;
+  border-radius: 5px;
+}
+
+.flame {
+  position: absolute;
+  width: 12px;
+  height: 25px;
+  background: linear-gradient(to bottom, #ffcc00, #ff6600);
+  border-radius: 50% 50% 20% 20%;
+  top: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: flicker 0.5s infinite alternate;
+  filter: blur(1px);
+}
+
+/* Blow interaction */
+.blow-area {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  top: -50px;
+  left: 0;
+  z-index: 5;
+  cursor: pointer;
+}
+
+/* Microphone permission button */
+.mic-permission {
+  background: linear-gradient(45deg, #ff6b6b, #ffa3a3);
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  z-index: 10;
+}
+
+.mic-permission:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
+}
+
+/* Blow indicator */
+.blow-indicator {
+  position: absolute;
+  top: 20%;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  color: #ff6b6b;
+  font-weight: bold;
+  font-size: 1.2rem;
+  opacity: 0;
+  transition: opacity 0.5s;
+  z-index: 10;
+}
+
+.blow-indicator.active {
+  opacity: 1;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* Message Styles */
+.message {
+  text-align: center;
+  margin: 30px 0;
+  padding: 20px;
+  animation: fadeIn 2s ease-in;
+}
+
+.message h2 {
+  color: #ff6b6b;
+  margin-bottom: 15px;
+  font-size: 1.8rem;
+}
+
+.message p {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.celebrate-btn {
+  background: linear-gradient(45deg, #ff6b6b, #ffa3a3);
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+.celebrate-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(255, 107, 107, 0.4);
+}
+
+.celebrate-btn:active {
+  transform: translateY(1px);
+}
+
+/* Balloon Styles */
+.balloons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.balloon {
+  position: absolute;
+  width: 40px;
+  height: 50px;
+  border-radius: 50%;
+  bottom: -100px;
+  animation: float 15s ease-in-out infinite;
+}
+
+.balloon::before {
+  content: "";
+  position: absolute;
+  width: 2px;
+  height: 80px;
+  background: rgba(0, 0, 0, 0.2);
+  bottom: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.balloon-red {
+  background: linear-gradient(#ff6b6b, #ff8e8e);
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.balloon-blue {
+  background: linear-gradient(#5ca0ff, #8eb8ff);
+  left: 30%;
+  animation-delay: 2s;
+}
+
+.balloon-yellow {
+  background: linear-gradient(#ffcc00, #ffe066);
+  left: 50%;
+  animation-delay: 4s;
+}
+
+.balloon-purple {
+  background: linear-gradient(#b088ff, #d0b3ff);
+  left: 70%;
+  animation-delay: 6s;
+}
+
+.balloon-green {
+  background: linear-gradient(#66cc99, #99e6c1);
+  left: 90%;
+  animation-delay: 8s;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0) rotate(0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-500px) rotate(10deg);
+  }
+  100% {
+    transform: translateY(-1000px) rotate(-10deg);
+    opacity: 0;
+  }
+}
+
+/* Gift Box Styles */
+.gift-box {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 40px auto;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.5s;
+}
+
+.gift-box:hover {
+  transform: scale(1.05);
+}
+
+.gift-container {
+  position: absolute;
+  width: 100%;
+  height: 80%;
+  bottom: 0;
+  background: linear-gradient(45deg, #ff6b6b, #ffa3a3);
+  border-radius: 5px;
+}
+
+.gift-lid {
+  position: absolute;
+  width: 110%;
+  height: 25%;
+  top: -5%;
+  left: -5%;
+  background: linear-gradient(45deg, #ff8e8e, #ffb6b6);
+  border-radius: 5px;
+  transform-origin: bottom;
+  transition: transform 0.5s;
+}
+
+.gift-box.open .gift-lid {
+  transform: rotateX(-110deg);
+}
+
+.gift-ribbon {
+  position: absolute;
+  width: 20%;
+  height: 100%;
+  background: #ffcc70;
+  left: 40%;
+  z-index: 1;
+}
+
+.gift-bow {
+  position: absolute;
+  width: 60%;
+  height: 40%;
+  top: -20%;
+  left: 20%;
+  background: #ffcc70;
+  border-radius: 50% 50% 0 0;
+  z-index: 2;
+  clip-path: polygon(0% 100%, 50% 0%, 100% 100%);
+}
+
+/* Confetti Styles */
+.confetti-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: hidden;
+}
+
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #f00;
+  opacity: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+
+  .cake {
+    width: 150px;
+    height: 130px;
+  }
+
+  .cake-top,
+  .cake-middle,
+  .cake-bottom {
+    width: 150px;
+  }
+
+  .cake-top {
+    height: 30px;
+  }
+
+  .cake-middle,
+  .cake-bottom {
+    height: 50px;
+  }
+
+  .cake-middle {
+    top: 30px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .cake {
+    width: 120px;
+    height: 110px;
+  }
+
+  .cake-top,
+  .cake-middle,
+  .cake-bottom {
+    width: 120px;
+  }
+
+  .cake-top {
+    height: 25px;
+  }
+
+  .cake-middle,
+  .cake-bottom {
+    height: 42.5px;
+  }
+
+  .cake-middle {
+    top: 25px;
+  }
+
+  .message h2 {
+    font-size: 1.5rem;
+  }
+}
+
+
+  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="confetti-container" id="confetti-container"></div>
+      
+      <div class="header">
+        <h1 class="title">Happy Birthday Srinidhi!</h1>
+        <p class="subtitle">Wishing you an amazing day filled with joy and laughter</p>
+      </div>
+      
+      <div class="cake-container">
+        <div class="cake">
+          <div class="cake-top"></div>
+          <div class="cake-middle"></div>
+          <div class="cake-bottom"></div>
+          <div class="candles-container" id="candles-container">
+            <!-- Candles will be added dynamically via JavaScript -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="message">
+        <h2>On Your Special Day</h2>
+        <p>May this day bring countless happiness and endless joy to your life!</p>
+        <button id="celebrate-btn" class="celebrate-btn">Make a Wish!</button>
+      </div>
+      
+      <div class="balloons">
+        <div class="balloon balloon-red"></div>
+        <div class="balloon balloon-blue"></div>
+        <div class="balloon balloon-yellow"></div>
+        <div class="balloon balloon-purple"></div>
+        <div class="balloon balloon-green"></div>
+      </div>
+      
+      <div class="gift-box" id="gift-box">
+        <div class="gift-lid"></div>
+        <div class="gift-container"></div>
+        <div class="gift-ribbon"></div>
+        <div class="gift-bow"></div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+  // Initialize elements
+  const celebrateBtn = document.getElementById("celebrate-btn")
+  const giftBox = document.getElementById("gift-box")
+  const confettiContainer = document.getElementById("confetti-container")
+  const candlesContainer = document.getElementById("candles-container")
+
+  // Create candles
+  const numberOfCandles = 7 // You can adjust this number
+  let candlesBlown = 0
+
+  // Add candles to the cake
+  for (let i = 0; i < numberOfCandles; i++) {
+    const candle = document.createElement("div")
+    candle.className = "candle"
+
+    const flame = document.createElement("div")
+    flame.className = "flame"
+
+    candle.appendChild(flame)
+    candlesContainer.appendChild(candle)
+
+    // Position candles in an arc
+    const angle = (i / (numberOfCandles - 1)) * Math.PI - Math.PI / 2
+    const radius = 70
+    const x = Math.cos(angle) * radius
+    const y = Math.sin(angle) * radius * 0.3
+
+    candle.style.transform = `translate(${x}px, ${y}px) rotate(${angle * 0.5}rad)`
+
+    // Add individual flicker animation with different timing
+    flame.style.animation = `flicker ${0.3 + Math.random() * 0.4}s infinite alternate`
+    flame.style.animationDelay = `${Math.random() * 0.5}s`
+  }
+
+  // Add blow area for interaction
+  const blowArea = document.createElement("div")
+  blowArea.className = "blow-area"
+  candlesContainer.appendChild(blowArea)
+
+  // Add blow indicator
+  const blowIndicator = document.createElement("div")
+  blowIndicator.className = "blow-indicator"
+  blowIndicator.textContent = "💨 Blow to extinguish the candles! 💨"
+  document.querySelector(".card").appendChild(blowIndicator)
+
+  // Add microphone permission button
+  const micPermissionBtn = document.createElement("button")
+  micPermissionBtn.className = "mic-permission"
+  micPermissionBtn.textContent = "🎤 Enable Mic"
+  document.querySelector(".card").appendChild(micPermissionBtn)
+
+  // Create confetti particles
+  const confettiColors = ["#ff6b6b", "#5ca0ff", "#ffcc00", "#b088ff", "#66cc99", "#ff9eb5", "#ffd3a1"]
+  const confettiShapes = ["circle", "square", "triangle"]
+
+  // Function to create a confetti particle
+  function createConfetti() {
+    const confetti = document.createElement("div")
+    confetti.className = "confetti"
+
+    // Random properties
+    const color = confettiColors[Math.floor(Math.random() * confettiColors.length)]
+    const shape = confettiShapes[Math.floor(Math.random() * confettiShapes.length)]
+    const size = Math.random() * 10 + 5
+    const left = Math.random() * 100
+
+    // Set styles
+    confetti.style.backgroundColor = color
+    confetti.style.width = `${size}px`
+    confetti.style.height = `${size}px`
+    confetti.style.left = `${left}%`
+    confetti.style.top = "-20px"
+    confetti.style.opacity = "1"
+
+    // Set shape
+    if (shape === "circle") {
+      confetti.style.borderRadius = "50%"
+    } else if (shape === "triangle") {
+      confetti.style.width = "0"
+      confetti.style.height = "0"
+      confetti.style.backgroundColor = "transparent"
+      confetti.style.borderLeft = `${size / 2}px solid transparent`
+      confetti.style.borderRight = `${size / 2}px solid transparent`
+      confetti.style.borderBottom = `${size}px solid ${color}`
+    }
+
+    // Add to container
+    confettiContainer.appendChild(confetti)
+
+    // Animate
+    const animationDuration = Math.random() * 3 + 2
+    const rotation = Math.random() * 360
+
+    confetti.animate(
+      [
+        { transform: `translateY(0) rotate(0deg)`, opacity: 1 },
+        { transform: `translateY(${window.innerHeight}px) rotate(${rotation}deg)`, opacity: 0 },
+      ],
+      {
+        duration: animationDuration * 1000,
+        easing: "cubic-bezier(0.1, 0.8, 0.3, 1)",
+      },
+    )
+
+    // Remove after animation
+    setTimeout(() => {
+      confetti.remove()
+    }, animationDuration * 1000)
+  }
+
+  // Function to create multiple confetti
+  function launchConfetti(amount = 100) {
+    for (let i = 0; i < amount; i++) {
+      setTimeout(createConfetti, Math.random() * 2000)
+    }
+  }
+
+  // Function to blow out a single candle
+  function blowOutCandle(index) {
+    const flames = document.querySelectorAll(".flame")
+    if (index < flames.length && flames[index].style.opacity !== "0") {
+      flames[index].style.animation = "none"
+      flames[index].style.opacity = "0"
+      flames[index].style.transform = "translateX(-50%) scale(0)"
+
+      // Add smoke effect
+      const candle = flames[index].parentElement
+      const smoke = document.createElement("div")
+      smoke.className = "smoke"
+      smoke.style.position = "absolute"
+      smoke.style.width = "15px"
+      smoke.style.height = "15px"
+      smoke.style.borderRadius = "50%"
+      smoke.style.background = "rgba(200, 200, 200, 0.4)"
+      smoke.style.top = "-25px"
+      smoke.style.left = "50%"
+      smoke.style.transform = "translateX(-50%)"
+      smoke.style.filter = "blur(5px)"
+
+      candle.appendChild(smoke)
+
+      // Animate smoke
+      smoke.animate(
+        [
+          { transform: "translateX(-50%) translateY(0) scale(1)", opacity: 0.7 },
+          { transform: "translateX(-50%) translateY(-30px) scale(2)", opacity: 0 },
+        ],
+        {
+          duration: 1000,
+          easing: "ease-out",
+        },
+      )
+
+      setTimeout(() => {
+        smoke.remove()
+      }, 1000)
+
+      candlesBlown++
+
+      // If all candles are blown
+      if (candlesBlown === numberOfCandles) {
+        allCandlesBlown()
+      }
+
+      return true
+    }
+    return false
+  }
+
+  // Function to blow out all candles
+  function blowOutAllCandles() {
+    const flames = document.querySelectorAll(".flame")
+    let delay = 0
+
+    // Blow candles in sequence
+    flames.forEach((flame, index) => {
+      setTimeout(() => {
+        blowOutCandle(index)
+      }, delay)
+      delay += 150
+    })
+
+    // Show message after all candles are blown
+    setTimeout(() => {
+      allCandlesBlown()
+    }, delay + 500)
+  }
+
+  // Function to handle when all candles are blown
+  function allCandlesBlown() {
+    // Show message
+    const message = document.createElement("div")
+    message.className = "wish-message"
+    message.textContent = "🎉 Your wish has been made! 🎉"
+    message.style.position = "absolute"
+    message.style.top = "20%"
+    message.style.left = "0"
+    message.style.width = "100%"
+    message.style.textAlign = "center"
+    message.style.color = "#ff6b6b"
+    message.style.fontWeight = "bold"
+    message.style.fontSize = "1.2rem"
+    message.style.opacity = "0"
+    message.style.transition = "opacity 1s"
+
+    document.querySelector(".card").appendChild(message)
+
+    setTimeout(() => {
+      message.style.opacity = "1"
+    }, 100)
+
+    setTimeout(() => {
+      message.style.opacity = "0"
+      setTimeout(() => {
+        message.remove()
+      }, 1000)
+    }, 3000)
+
+    // Launch confetti
+    launchConfetti(150)
+
+    // Add shake animation to cake
+    const cake = document.querySelector(".cake")
+    cake.style.animation = "shake 0.5s"
+
+    setTimeout(() => {
+      cake.style.animation = ""
+    }, 500)
+
+    // Hide blow indicator
+    blowIndicator.classList.remove("active")
+  }
+
+  // Microphone blow detection
+  let audioContext
+  let analyser
+  let microphone
+  let javascriptNode
+  let blowDetected = false
+  let blowTimeout
+
+  // Function to set up audio analysis
+  function setupAudioAnalysis() {
+    try {
+      // Create audio context
+      audioContext = new (window.AudioContext || window.webkitAudioContext)()
+
+      // Create analyzer
+      analyser = audioContext.createAnalyser()
+      analyser.fftSize = 1024
+      analyser.smoothingTimeConstant = 0.8
+
+      // Create javascript processor
+      javascriptNode = audioContext.createScriptProcessor(2048, 1, 1)
+
+      // Connect nodes
+      analyser.connect(javascriptNode)
+      javascriptNode.connect(audioContext.destination)
+
+      // Get microphone input
+      navigator.mediaDevices
+        .getUserMedia({ audio: true, video: false })
+        .then((stream) => {
+          microphone = audioContext.createMediaStreamSource(stream)
+          microphone.connect(analyser)
+
+          // Show blow indicator
+          blowIndicator.classList.add("active")
+
+          // Hide mic permission button
+          micPermissionBtn.style.display = "none"
+        })
+        .catch((err) => {
+          console.log("Error getting microphone input: " + err)
+        })
+
+      // Process audio data
+      javascriptNode.onaudioprocess = () => {
+        const array = new Uint8Array(analyser.frequencyBinCount)
+        analyser.getByteFrequencyData(array)
+
+        // Calculate average volume
+        let average = 0
+        const length = array.length
+        for (let i = 0; i < length; i++) {
+          average += array[i]
+        }
+        average = average / length
+
+        // Detect blow (high volume in low frequencies)
+        const lowFreqAvg = (array[0] + array[1] + array[2] + array[3] + array[4]) / 5
+
+        if (lowFreqAvg > 150 && !blowDetected) {
+          blowDetected = true
+
+          // Blow out a random unblown candle
+          const flames = document.querySelectorAll(".flame")
+          const unblownCandles = Array.from(flames).filter((flame) => flame.style.opacity !== "0")
+
+          if (unblownCandles.length > 0) {
+            const randomIndex = Math.floor(Math.random() * unblownCandles.length)
+            const flameIndex = Array.from(flames).indexOf(unblownCandles[randomIndex])
+            blowOutCandle(flameIndex)
+          }
+
+          // Reset blow detection after a delay
+          clearTimeout(blowTimeout)
+          blowTimeout = setTimeout(() => {
+            blowDetected = false
+          }, 1000)
+        }
+      }
+    } catch (e) {
+      console.log("Audio analysis setup error: " + e)
+    }
+  }
+
+  // Event listeners
+  celebrateBtn.addEventListener("click", function () {
+    blowOutAllCandles()
+
+    // Disable button temporarily
+    this.disabled = true
+    setTimeout(() => {
+      this.disabled = false
+    }, 3000)
+  })
+
+  micPermissionBtn.addEventListener("click", () => {
+    setupAudioAnalysis()
+  })
+
+  blowArea.addEventListener("click", () => {
+    // Blow out a random unblown candle on click
+    const flames = document.querySelectorAll(".flame")
+    const unblownCandles = Array.from(flames).filter((flame) => flame.style.opacity !== "0")
+
+    if (unblownCandles.length > 0) {
+      const randomIndex = Math.floor(Math.random() * unblownCandles.length)
+      const flameIndex = Array.from(flames).indexOf(unblownCandles[randomIndex])
+      blowOutCandle(flameIndex)
+    }
+  })
+
+  giftBox.addEventListener("click", function () {
+    this.classList.toggle("open")
+
+    if (this.classList.contains("open")) {
+      // Launch mini confetti from gift
+      for (let i = 0; i < 30; i++) {
+        setTimeout(() => {
+          const confetti = document.createElement("div")
+          confetti.className = "confetti"
+
+          const color = confettiColors[Math.floor(Math.random() * confettiColors.length)]
+          const size = Math.random() * 8 + 3
+
+          confetti.style.backgroundColor = color
+          confetti.style.width = `${size}px`
+          confetti.style.height = `${size}px`
+          confetti.style.borderRadius = "50%"
+
+          // Position at gift box
+          const giftRect = giftBox.getBoundingClientRect()
+          const cardRect = document.querySelector(".card").getBoundingClientRect()
+
+          confetti.style.left = `${giftRect.left - cardRect.left + giftRect.width / 2}px`
+          confetti.style.top = `${giftRect.top - cardRect.top}px`
+          confetti.style.opacity = "1"
+          confetti.style.position = "absolute"
+
+          confettiContainer.appendChild(confetti)
+
+          // Random direction
+          const angle = Math.random() * Math.PI * 2
+          const distance = Math.random() * 100 + 50
+          const duration = Math.random() * 1 + 0.5
+
+          confetti.animate(
+            [
+              { transform: "translate(0, 0) scale(1)", opacity: 1 },
+              {
+                transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`,
+                opacity: 0,
+              },
+            ],
+            {
+              duration: duration * 1000,
+              easing: "cubic-bezier(0.1, 0.8, 0.3, 1)",
+            },
+          )
+
+          setTimeout(() => {
+            confetti.remove()
+          }, duration * 1000)
+        }, Math.random() * 500)
+      }
+    }
+  })
+
+  // Add floating animation to balloons
+  document.querySelectorAll(".balloon").forEach((balloon) => {
+    // Random starting position
+    const startDelay = Math.random() * 5
+    balloon.style.animationDelay = `${startDelay}s`
+  })
+
+  // Add shake animation
+  const styleSheet = document.styleSheets[0]
+  styleSheet.insertRule(
+    `
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+      20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+  `,
+    styleSheet.cssRules.length,
+  )
+
+  // Initial confetti burst on load
+  setTimeout(() => {
+    launchConfetti(50)
+  }, 1000)
+})
+
+
+  </script>
+</body>
+</html>
+
